@@ -25,8 +25,8 @@ public class InputTableController {
 	InputTableService inputTableServiceImpl;
 	
 	@GetMapping("/tableColumns")
-	public InputTableColumnsDTO getInputTableColumns(@RequestParam String name, @RequestParam String tableType) {
-		InputTableColumnsDTO inputTableColumns = inputTableServiceImpl.getInputTableColumns(name, tableType);
+	public InputTableColumnsDTO getInputTableColumns(@RequestParam String name) {
+		InputTableColumnsDTO inputTableColumns = inputTableServiceImpl.getInputTableColumns(name, "user_input");
 		return inputTableColumns;
 	}
 	

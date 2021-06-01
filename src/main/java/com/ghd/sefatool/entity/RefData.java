@@ -24,8 +24,6 @@ public class RefData extends BaseEntity implements Serializable {
 	String classCode;
 	
 	String value;
-	
-	Long inputTableColumnId;
 
 	public Long getId() {
 		return id;
@@ -49,14 +47,6 @@ public class RefData extends BaseEntity implements Serializable {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public Long getInputTableColumnId() {
-		return inputTableColumnId;
-	}
-
-	public void setInputTableColumnId(Long inputTableColumnId) {
-		this.inputTableColumnId = inputTableColumnId;
 	}
 
 }

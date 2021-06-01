@@ -27,6 +27,8 @@ public class InputTableName extends BaseEntity implements Serializable {
 	String description;
 	
 	String tableType;
+	
+	String classCodeForLookup;
 
 	public Integer getId() {
 		return id;
@@ -58,6 +60,14 @@ public class InputTableName extends BaseEntity implements Serializable {
 
 	public void setTableType(String tableType) {
 		this.tableType = tableType;
+	}
+
+	public String getClassCodeForLookup() {
+		return classCodeForLookup;
+	}
+
+	public void setClassCodeForLookup(String classCodeForLookup) {
+		this.classCodeForLookup = classCodeForLookup;
 	}
 	
 	

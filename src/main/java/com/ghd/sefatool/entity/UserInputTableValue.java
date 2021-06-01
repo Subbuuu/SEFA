@@ -32,8 +32,6 @@ public class UserInputTableValue extends BaseEntity implements Serializable {
 	
 	String userInputColumnValue;
 	
-	Boolean isCalculated;
-	
 	Boolean isUserInputTableValueOverridden;
 	
 	String UserInputTableValueOverridden;
@@ -76,14 +74,6 @@ public class UserInputTableValue extends BaseEntity implements Serializable {
 
 	public void setUserInputColumnValue(String userInputColumnValue) {
 		this.userInputColumnValue = userInputColumnValue;
-	}
-
-	public Boolean getIsCalculated() {
-		return isCalculated;
-	}
-
-	public void setIsCalculated(Boolean isCalculated) {
-		this.isCalculated = isCalculated;
 	}
 
 	public Boolean getIsUserInputTableValueOverridden() {

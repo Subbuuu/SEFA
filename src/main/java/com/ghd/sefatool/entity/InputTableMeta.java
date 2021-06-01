@@ -33,6 +33,8 @@ public class InputTableMeta extends BaseEntity implements Serializable{
 	String inputColumnUnit;
 	
 	Boolean isLookup;
+	
+	Boolean isCalculated;
 
 	public Integer getId() {
 		return id;
@@ -80,6 +82,14 @@ public class InputTableMeta extends BaseEntity implements Serializable{
 
 	public void setIsLookup(Boolean isLookup) {
 		this.isLookup = isLookup;
+	}
+
+	public Boolean getIsCalculated() {
+		return isCalculated;
+	}
+
+	public void setIsCalculated(Boolean isCalculated) {
+		this.isCalculated = isCalculated;
 	}
 	
 	
