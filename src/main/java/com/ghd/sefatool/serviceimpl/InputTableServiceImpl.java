@@ -10,18 +10,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ghd.sefatool.dto.InputTableColumnsDTO;
+import com.ghd.sefatool.entity.InputTableNameLookup;
+import com.ghd.sefatool.entity.RefData;
 import com.ghd.sefatool.entity.UserInputTableValue;
 import com.ghd.sefatool.projection.InputTableColumnsProjection;
 import com.ghd.sefatool.repository.InputTableMetaRepository;
 import com.ghd.sefatool.repository.InputTableNameLookupRepository;
 import com.ghd.sefatool.repository.InputTableNameRepository;
+import com.ghd.sefatool.repository.RefDataRepository;
 import com.ghd.sefatool.repository.UserInputTableValueRepository;
 import com.ghd.sefatool.service.InputTableService;
+import com.ghd.sefatool.vo.InputLookupValuesJson;
 import com.ghd.sefatool.vo.InputValuesJson;
 
 @Service
 public class InputTableServiceImpl implements InputTableService {
 
+	
+	@Autowired
+	RefDataRepository refDataRepository;
+	
 	@Autowired
 	InputTableNameRepository inputTableNameRepository;
 	
@@ -163,6 +171,46 @@ public class InputTableServiceImpl implements InputTableService {
 			userInputTableValueRepository.save(userInputTableValue);
 		}
 		}
+	}
+	
+	@Override 
+	public ResponseEntity<String> saveInputLookupValues(InputLookupValuesJson inputLookupValuesJson){
+		RefData refData = new RefData();
+		Integer inputTableNameId = findUserInputLookupTableId(inputLookupValuesJson.getTableName());
+		Map<String, Map<String, String>> entities = inputLookupValuesJson.getEntities();
+		
+		try {
+			for(Map.Entry<String, Map<String, String>> entity : entities.entrySet()) {
+				String lookUpRow = entity.getKey();
+				Map<String, String> columns = entity.getValue();
+				
+				refData.setClassCode(inputTableNameRepository.getLookupTableClassCode(inputTableNameId));
+				refData.setValue(lookUpRow);
+				refDataRepository.save(refData);
+				
+				
+				for(Map.Entry<String, String> lookUpColumns : columns.entrySet()) {
+					String lookUpColumnName = lookUpColumns.getKey();
+					String lookUpColumnValue = lookUpColumns.getValue();
+					InputTableNameLookup inputTableNameLookup = new InputTableNameLookup();
+					inputTableNameLookup.setLookupTableNameId(inputTableNameId);
+					inputTableNameLookup.setLookupRow(lookUpRow);
+					inputTableNameLookup.setLookupColumn(lookUpColumnName);
+					inputTableNameLookup.setLookupValue(lookUpColumnValue);
+					inputTableNameLookup.setIsUserDefined(true);
+					inputTableNameLookupRepository.save(inputTableNameLookup);
+				}
+				
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("Values not saved", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>("Values saved successfully", HttpStatus.OK);
+	}
+	
+	private Integer findUserInputLookupTableId(String tableName) {
+		return inputTableNameRepository.getTableId(tableName);
 	}
 
 }

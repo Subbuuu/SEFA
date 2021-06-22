@@ -13,4 +13,9 @@ public interface InputTableNameRepository extends JpaRepository<InputTableName, 
 	@Query("select i.id from InputTableName i where i.name = :name and i.tableType = :tableType")
 	Integer getId(@Param("name") String name, @Param("tableType") String tableType);
 
+	@Query("SELECT i.classCodeForLookup from InputTableName i where i.id = :tableID")
+	String getLookupTableClassCode(@Param("tableID") Integer id);
+	
+	@Query("select i.id from InputTableName i where i.name = :name")
+	Integer getTableId(@Param("name") String name);
 }
