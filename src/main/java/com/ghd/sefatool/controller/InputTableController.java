@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ghd.sefatool.dto.InputTableColumnsDTO;
 import com.ghd.sefatool.service.InputTableService;
+import com.ghd.sefatool.vo.InputLookupValuesJson;
 import com.ghd.sefatool.vo.InputValuesJson;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,11 @@ public class InputTableController {
 	public ResponseEntity<String> saveInputTableValues(@RequestBody InputValuesJson inputValuesJson) {
 		ResponseEntity<String> status = inputTableServiceImpl.saveInputValues(inputValuesJson);
 		return status;
+	}
+	
+	@PostMapping("/inputLookupValues")
+	public ResponseEntity<String> saveInputTableLookupValues(@RequestBody InputLookupValuesJson inputLookupValuesJson){
+		return inputTableServiceImpl.saveInputLookupValues(inputLookupValuesJson);
 	}
 	
 }

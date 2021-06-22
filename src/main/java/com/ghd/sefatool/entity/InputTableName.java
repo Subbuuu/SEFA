@@ -30,45 +30,5 @@ public class InputTableName extends BaseEntity implements Serializable {
 	
 	String classCodeForLookup;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getTableType() {
-		return tableType;
-	}
-
-	public void setTableType(String tableType) {
-		this.tableType = tableType;
-	}
-
-	public String getClassCodeForLookup() {
-		return classCodeForLookup;
-	}
-
-	public void setClassCodeForLookup(String classCodeForLookup) {
-		this.classCodeForLookup = classCodeForLookup;
-	}
-	
 	
 }
