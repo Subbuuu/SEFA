@@ -4,16 +4,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ghd.sefatool.dto.InputTableColumnsDTO;
+import com.ghd.sefatool.entity.Formula;
 import com.ghd.sefatool.entity.InputTableNameLookup;
 import com.ghd.sefatool.entity.RefData;
 import com.ghd.sefatool.entity.UserInputTableValue;
 import com.ghd.sefatool.projection.InputTableColumnsProjection;
+import com.ghd.sefatool.repository.FormulaRepository;
 import com.ghd.sefatool.repository.InputTableMetaRepository;
 import com.ghd.sefatool.repository.InputTableNameLookupRepository;
 import com.ghd.sefatool.repository.InputTableNameRepository;
@@ -26,6 +32,8 @@ import com.ghd.sefatool.vo.InputValuesJson;
 @Service
 public class InputTableServiceImpl implements InputTableService {
 
+	@Autowired
+	FormulaRepository formulaRepository;
 	
 	@Autowired
 	RefDataRepository refDataRepository;
@@ -90,7 +98,22 @@ public class InputTableServiceImpl implements InputTableService {
 		return id;
 	}
 	
-	public void loadCalculatedValues(Integer inputTableNameId, InputValuesJson inputValuesJson, String rowIdentifier) {
+	public StringBuffer evaluateFormula(Map<String, String> variables, String formulaName) throws ScriptException {
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+		
+		Formula formula =  formulaRepository.findByFormulaName(formulaName);
+		StringBuffer formulaToBeEvaluated = new StringBuffer(formula.getFormula());
+		String [] variablesUsed = formula.getVariablesUsed().split(",");
+		
+		for(int i = 0; i < variablesUsed.length; i++) {
+			formulaToBeEvaluated.
+			replace(variablesUsed[i], variables.get(variablesUsed[i]));
+		}
+		StringBuffer result = (StringBuffer) engine.eval(formulaToBeEvaluated);
+		return result;
+	}
+	
+	public void loadCalculatedValues(Integer inputTableNameId, InputValuesJson inputValuesJson, String rowIdentifier) throws ScriptException {
 		Map<String,String> values = inputValuesJson.getColumnValues();
 		String remedialOptionName = inputValuesJson.getRemedialOptionName();
 		String componentName = inputValuesJson.getComponentName();
@@ -103,11 +126,26 @@ public class InputTableServiceImpl implements InputTableService {
 			userInputTableValue.setComponentName(componentName);
 			userInputTableValue.setComponentPhase(componentPhase);
 			userInputTableValue.setRowIdentifier(rowIdentifier);
+			save()
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//calculation for total distance transported
+			String totalDistanceTravelled = evaluateFormula(values, "PRT_");
+			
 			String userInputColumnValue =  String.valueOf(Float.parseFloat(values.get("Number of Roundtrips to Site"))*
 					Float.parseFloat(values.get("Roundtrip Distance to Site")));
 			userInputTableValue.setUserInputColumnId(6);
 			userInputTableValue.setUserInputColumnValue(userInputColumnValue);
 			userInputTableValueRepository.save(userInputTableValue);
+			
+			//calculation for lookup value for defualt fuel rate
 			userInputTableValue = new UserInputTableValue();
 			userInputTableValue.setInputTableNameId(inputTableNameId);
 			userInputTableValue.setRemedialOptionName(remedialOptionName);
@@ -117,9 +155,13 @@ public class InputTableServiceImpl implements InputTableService {
 			userInputTableValue.setUserInputColumnId(7);
 			String lookupRow = values.get("Mode of Transportation");
 			String lookupColumn = values.get("Transport Fuel Type");
+			
+			
 			String lookupValue = inputTableNameLookupRepository.findLookupValue(2, lookupRow, lookupColumn);
 			userInputTableValue.setUserInputColumnValue(lookupValue);
 			userInputTableValueRepository.save(userInputTableValue);
+			
+			//calculation for fuel used = total distance transported * (default/overriden) fuel usage rate 
 			userInputTableValue = new UserInputTableValue();
 			userInputTableValue.setInputTableNameId(inputTableNameId);
 			userInputTableValue.setRemedialOptionName(remedialOptionName);
@@ -524,6 +566,10 @@ public class InputTableServiceImpl implements InputTableService {
 	
 	private Integer findUserInputLookupTableId(String tableName) {
 		return inputTableNameRepository.getTableId(tableName);
+	}
+	
+	private UserInputTableValue setAttributes(UserInputTableValue userInputTableValue) {
+		
 	}
 
 }
