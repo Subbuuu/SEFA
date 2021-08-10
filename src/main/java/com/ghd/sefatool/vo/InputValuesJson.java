@@ -1,8 +1,11 @@
 package com.ghd.sefatool.vo;
 
+import java.util.List;
 import java.util.Map;
 
 public class InputValuesJson {
+	
+	String siteName;
 	
 	String remedialOptionName;
 	
@@ -12,7 +15,7 @@ public class InputValuesJson {
 	
 	String inputTableName;
 	
-	Map<String,String> columnValues;
+	List<Map<String,String>> columnValues;
 
 	public String getRemedialOptionName() {
 		return remedialOptionName;
@@ -46,16 +49,24 @@ public class InputValuesJson {
 		this.inputTableName = inputTableName;
 	}
 
-	public Map<String, String> getColumnValues() {
+	public List<Map<String, String>> getColumnValues() {
 		return columnValues;
 	}
 
-	public void setColumnValues(Map<String, String> columnValues) {
+	public void setColumnValues(List<Map<String, String>> columnValues) {
 		this.columnValues = columnValues;
 	}
 
+	public String getSiteName() {
+		return siteName;
+	}
+
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
+
 	public InputValuesJson(String remedialOptionName, String componentName, String componentPhase,
-			String inputTableName, Map<String, String> columnValues) {
+			String inputTableName, List<Map<String, String>> columnValues) {
 		super();
 		this.remedialOptionName = remedialOptionName;
 		this.componentName = componentName;

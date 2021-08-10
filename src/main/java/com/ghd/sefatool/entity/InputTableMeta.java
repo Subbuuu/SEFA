@@ -26,9 +26,13 @@ public class InputTableMeta extends BaseEntity implements Serializable{
 	
 	String inputColumnName;
 	
+	String inputColumnCode;
+	
 	String inputColumnType;
 	
 	Integer inputTableNameId;
+	
+	Integer lookupTableId;
 	
 	String inputColumnUnit;
 	
@@ -91,6 +95,21 @@ public class InputTableMeta extends BaseEntity implements Serializable{
 	public void setIsCalculated(Boolean isCalculated) {
 		this.isCalculated = isCalculated;
 	}
-	
-	
+
+	public String getInputColumnCode() {
+		return inputColumnCode;
+	}
+
+	public void setInputColumnCode(String inputColumnCode) {
+		this.inputColumnCode = inputColumnCode;
+	}
+
+	public Integer getLookupTableId() {
+		return lookupTableId;
+	}
+
+	public void setLookupTableId(Integer lookupTableId) {
+		this.lookupTableId = lookupTableId;
+	}
+		
 }
