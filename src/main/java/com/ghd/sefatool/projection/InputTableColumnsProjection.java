@@ -5,6 +5,8 @@ public class InputTableColumnsProjection {
 	public String inputColumnName;
 	
 	public String inputColumnType;
+	
+	public String inputColumnCode;
 
 	public String getInputColumnName() {
 		return inputColumnName;
@@ -22,10 +24,19 @@ public class InputTableColumnsProjection {
 		this.inputColumnType = inputColumnType;
 	}
 
-	public InputTableColumnsProjection(String inputColumnName, String inputColumnType) {
+	public String getInputColumnCode() {
+		return inputColumnCode;
+	}
+
+	public void setInputColumnCode(String inputColumnCode) {
+		this.inputColumnCode = inputColumnCode;
+	}
+
+	public InputTableColumnsProjection(String inputColumnName, String inputColumnType, String inputColumnCode) {
 		super();
 		this.inputColumnName = inputColumnName;
 		this.inputColumnType = inputColumnType;
+		this.inputColumnCode = inputColumnCode;
 	}
 	
 	

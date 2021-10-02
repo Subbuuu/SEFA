@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ghd.sefatool.dto.RefDataDTO;
 import com.ghd.sefatool.dto.RefDataHierarchyDTO;
+import com.ghd.sefatool.dto.ResponseDTO;
 import com.ghd.sefatool.entity.RefData;
 import com.ghd.sefatool.entity.RefDataHierarchy;
 import com.ghd.sefatool.repository.RefDataHierarchyRepository;
@@ -36,14 +37,14 @@ public class RefDataController {
 	RefDataHierarchyRepository refDataHierarchyRepository;
 	
 	@GetMapping("/v1")
-	public RefDataDTO getRefDataValue(@RequestParam(required = false)  String classCode) {
-		RefDataDTO refDataDTOList = refDataServiceImpl.getRefData(classCode.toUpperCase());
+	public ResponseDTO<RefDataDTO> getRefDataValue(@RequestParam(required = false)  String classCode) {
+		ResponseDTO<RefDataDTO> refDataDTOList = refDataServiceImpl.getRefData(classCode.toUpperCase());
 		return refDataDTOList;
 	}
 	
 	@PostMapping("/inputv1")
-	public ResponseEntity<String> insertRefDataValue(@RequestBody RefData refData) {
-		ResponseEntity<String> status = refDataServiceImpl.insertRefDataValue(refData);
+	public ResponseDTO<ResponseEntity<String>> insertRefDataValue(@RequestBody RefData refData) {
+		ResponseDTO<ResponseEntity<String>> status = refDataServiceImpl.insertRefDataValue(refData);
 		return status;
 	}
 	

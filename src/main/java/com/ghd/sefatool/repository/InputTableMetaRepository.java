@@ -16,9 +16,17 @@ public interface InputTableMetaRepository extends JpaRepository<InputTableMeta, 
 	@Query("select i.inputColumnName, i.inputColumnType from InputTableMeta i where i.inputTableNameId = :id")
 	List<String> getColumnName(@Param("id") Integer id);
 
+	@Query("select NEW com.ghd.sefatool.projection.InputTableColumnsProjection(i.inputColumnName, i.inputColumnType, i.inputColumnCode)"
+			+ " from InputTableMeta i where i.inputTableNameId = :id and i.isCalculated <> 1 and i.isLookup <> 1")
 	List<InputTableColumnsProjection> findAllByInputTableNameId(Integer id);
 	
-	@Query("select i.id from InputTableMeta i where i.inputColumnName = :inputColumnName and i.inputTableNameId = :inputTableNameId")
-	Integer getColumnId(@Param("inputColumnName") String inputColumnName, @Param("inputTableNameId") Integer inputTableNameId);
+	@Query("select i.id from InputTableMeta i where i.inputColumnCode = :inputColumnCode and i.inputTableNameId = :inputTableNameId")
+	Integer getColumnId(@Param("inputColumnCode") String inputColumnCode, @Param("inputTableNameId") Integer inputTableNameId);
+
+	@Query("select i from InputTableMeta i where i.inputTableNameId = :id and i.isCalculated = 1")
+	List<InputTableMeta> getCalculatedColumns(@Param("id") Integer id);
+
+	@Query("select i from InputTableMeta i where i.inputTableNameId = :id and i.isLookup = 1")
+	List<InputTableMeta> getLookupColumns(@Param("id") Integer id);
 
 }

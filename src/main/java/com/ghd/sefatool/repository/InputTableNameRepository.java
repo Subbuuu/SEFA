@@ -1,5 +1,7 @@
 package com.ghd.sefatool.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +20,11 @@ public interface InputTableNameRepository extends JpaRepository<InputTableName, 
 	
 	@Query("select i.id from InputTableName i where i.name = :name")
 	Integer getTableId(@Param("name") String name);
+	
+	@Query("select i.id from InputTableName i where i.tableType = :tableType")
+	List<Integer> getIdByTableType(@Param("tableType") String tableType);
+	
+	@Query("select i.name from InputTableName i where i.id = :id")
+	String getNameById(@Param("id") Integer id);
+	
 }

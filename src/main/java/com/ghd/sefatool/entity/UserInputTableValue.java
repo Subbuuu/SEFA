@@ -38,6 +38,8 @@ public class UserInputTableValue extends BaseEntity implements Serializable {
 	
 	String rowIdentifier;
 	
+	String siteName;
+	
 	String remedialOptionName;
 	
 	String componentName;
@@ -123,6 +125,13 @@ public class UserInputTableValue extends BaseEntity implements Serializable {
 	public void setComponentPhase(String componentPhase) {
 		this.componentPhase = componentPhase;
 	}
-	
+
+	public String getSiteName() {
+		return siteName;
+	}
+
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
 	
 }

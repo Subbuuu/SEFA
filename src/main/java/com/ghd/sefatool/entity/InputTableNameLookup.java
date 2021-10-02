@@ -35,5 +35,70 @@ public class InputTableNameLookup extends BaseEntity implements Serializable {
 	
 	Boolean isUserDefined;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getLookupRow() {
+		return lookupRow;
+	}
+
+	public void setLookupRow(String lookupRow) {
+		this.lookupRow = lookupRow;
+	}
+
+	public String getLookupColumn() {
+		return lookupColumn;
+	}
+
+	public void setLookupColumn(String lookupColumn) {
+		this.lookupColumn = lookupColumn;
+	}
+
+	public String getLookupValue() {
+		return lookupValue;
+	}
+
+	public void setLookupValue(String lookupValue) {
+		this.lookupValue = lookupValue;
+	}
+
+	public String getLookupUnit() {
+		return lookupUnit;
+	}
+
+	public void setLookupUnit(String lookupUnit) {
+		this.lookupUnit = lookupUnit;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	public Integer getLookupTableNameId() {
+		return lookupTableNameId;
+	}
+
+	public void setLookupTableNameId(Integer lookupTableNameId) {
+		this.lookupTableNameId = lookupTableNameId;
+	}
+
+	public Boolean getIsUserDefined() {
+		return isUserDefined;
+	}
+
+	public void setIsUserDefined(Boolean isUserDefined) {
+		this.isUserDefined = isUserDefined;
+	}
+
+	
 	
 }
