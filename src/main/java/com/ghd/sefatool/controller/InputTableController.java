@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ghd.sefatool.dto.InputTableColumnsDTO;
+import com.ghd.sefatool.dto.ResponseDTO;
+import com.ghd.sefatool.dto.ViewTableValuesDTO;
 import com.ghd.sefatool.service.InputTableService;
 import com.ghd.sefatool.vo.InputLookupValuesJson;
 import com.ghd.sefatool.vo.InputValuesJson;
@@ -26,20 +28,27 @@ public class InputTableController {
 	InputTableService inputTableServiceImpl;
 	
 	@GetMapping("/tableColumns")
-	public InputTableColumnsDTO getInputTableColumns(@RequestParam String name) {
-		InputTableColumnsDTO inputTableColumns = inputTableServiceImpl.getInputTableColumns(name, "user_input");
+	public ResponseDTO<InputTableColumnsDTO> getInputTableColumns(@RequestParam String name) {
+		ResponseDTO<InputTableColumnsDTO> inputTableColumns = inputTableServiceImpl.getInputTableColumns(name, "user_input");
 		return inputTableColumns;
 	}
 	
 	@PostMapping("/inputValues")
-	public ResponseEntity<String> saveInputTableValues(@RequestBody InputValuesJson inputValuesJson) {
-		ResponseEntity<String> status = inputTableServiceImpl.saveInputValues(inputValuesJson);
+	public ResponseDTO<ResponseEntity<String>> saveInputTableValues(@RequestBody InputValuesJson inputValuesJson) {
+		ResponseDTO<ResponseEntity<String>> status = inputTableServiceImpl.saveInputValues(inputValuesJson);
 		return status;
 	}
 	
 	@PostMapping("/inputLookupValues")
-	public ResponseEntity<String> saveInputTableLookupValues(@RequestBody InputLookupValuesJson inputLookupValuesJson){
+	public ResponseDTO<ResponseEntity<String>> saveInputTableLookupValues(@RequestBody InputLookupValuesJson inputLookupValuesJson){
 		return inputTableServiceImpl.saveInputLookupValues(inputLookupValuesJson);
+	}
+	
+	@GetMapping("/viewTableValues")
+	public ViewTableValuesDTO viewTableValues(@RequestParam String siteName, String remedialOptionName, String componentName, String componentPhase) {
+		
+		
+		return null;	
 	}
 	
 }

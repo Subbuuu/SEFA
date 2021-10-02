@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ghd.sefatool.dto.RefDataDTO;
 import com.ghd.sefatool.dto.RefDataHierarchyDTO;
+import com.ghd.sefatool.dto.ResponseDTO;
 import com.ghd.sefatool.entity.RefData;
 import com.ghd.sefatool.entity.RefDataHierarchy;
 import com.ghd.sefatool.repository.RefDataHierarchyRepository;
@@ -24,9 +25,23 @@ public class RefDataServiceImpl implements RefDataService {
 	RefDataHierarchyRepository refDataHierarchyRepository;
 			
 	@Override
-	public RefDataDTO getRefData(String classCode) {
-		List<String> refData = refDataRepository.findValueByClassCode(classCode);
-		return new RefDataDTO(refData);
+	public ResponseDTO<RefDataDTO> getRefData(String classCode) {
+		
+		ResponseDTO<RefDataDTO> response = new ResponseDTO<RefDataDTO>();
+		
+		try {
+			List<String> refData = refDataRepository.findValueByClassCode(classCode);
+			RefDataDTO refDataValues = new RefDataDTO(refData);
+			response.setMessage("Success");
+			response.setResultSet(refDataValues);
+			return response;
+		}
+		
+		catch(Exception e) {
+			response.setMessage("-- getRefData Failed - " + e.getMessage() + " --");
+			return response;
+		}
+		
 	}
 
 	@Override
@@ -36,14 +51,22 @@ public class RefDataServiceImpl implements RefDataService {
 	}
 
 	@Override
-	public ResponseEntity<String> insertRefDataValue(RefData refData) {
+	public ResponseDTO<ResponseEntity<String>> insertRefDataValue(RefData refData) {
+		
+		ResponseDTO<ResponseEntity<String>> response = new ResponseDTO<ResponseEntity<String>>();
+		
 		try {
-			refDataRepository.save(refData);	
+			refDataRepository.save(refData);
+			response.setMessage("Success");
+			response.setResultSet(new ResponseEntity<>("Value saved successfully", HttpStatus.OK));
+			return response;
 		}
+		
 		catch(Exception e) {
-			return new ResponseEntity<>("Value not saved", HttpStatus.BAD_REQUEST);
+			response.setMessage("-- insertRefDataValue Failed - " + e.getMessage() + " --");
+			return response;
 		}
-		return new ResponseEntity<>("Value saved successfully", HttpStatus.OK);
+
 	}
 
 	@Override
